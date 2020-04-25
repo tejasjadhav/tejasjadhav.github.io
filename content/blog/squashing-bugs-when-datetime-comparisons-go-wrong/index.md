@@ -103,17 +103,29 @@ Then I looked up why it was failing for the plumber category. I checked the data
 I somehow caught my breath and regained by senses, and saw the entire section of the office was staring at me - our team, HR, product managers, a few guys from the operations team, marketing guys, and even our CEO - all of them waiting for that one answer. I quickly stabilized myself, looked at that helpless guy and started asking him simple date and time arithmetic,
 
 > Me: How much is 9 AM + 1 hour?
+>
 > Him: Stop this stupid thing. Tell me what happened!
+>
 > Me: You will figure out yourself. Just give me the answer.
+>
 > Him: 10AM
+>
 > Me: +1 hour?
+>
 > Him: 11 AM.
+>
 > Me: Okay. What's 10PM  + 1 hour?
+>
 > Him: 11PM
+>
 > Me: +1 hour?
+>
 > Him: 12AM.
+>
 > Me: No. In 24 hour format?
+>
 > Him: 0 hours. Wait! oh... fuck!
+>
 > Me: Yes! Python `time` objects use 24-hour format instead of 12-hour format. And 0 hours is still less than 23 hours, which still satisfies the loop criteria. Since time is cyclic, this condition will always be true and thus your while loop becomes an infinite loop. Moreover, you're yielding the timeslots at each iteration which explains the slow rise in RAM usage, and infinite loop explains why CPU went 100%.
 
 It was the biggest 'Aha' moment on the floor. I could see a lot of them holding their heads and some still processing what I explained. Of all, _Gauri_ was giving her widest smile. One by one I was giving an explanation to everyone what happened and how it became an infinite loop. The poor guy put his head down on the table thinking how he couldn't catch this one case and even he gave a smile in the end.

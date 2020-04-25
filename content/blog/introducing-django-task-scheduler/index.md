@@ -22,6 +22,7 @@ The above rule translates to,
 > At every 3rd minute from 5 through 30 past every 2nd hour on Tuesday in January, May, and September. <small>[crontab.guru](https://crontab.guru/). You can check the interpretation of the above rule [here](https://crontab.guru/#5-30/3_*/2_*_1,5,9_2_).</small>
 
 This seems all nice and fair. However, I had some bizaare use cases.
+
 1. Task should execute every 2nd Friday
 2. Task should execute on second last day on every month
 3. Task should execute on every even day
@@ -48,6 +49,7 @@ One by one, all my usecases were handled by RRULEs. But building a complete RRUL
 The library has a function `dateutil.rrule.rrulestr` which converts a raw RRULE string into a `rrule` object. The best part about this object is, some parameters of the RRULE can be changed directly by modifying the object properties, like the `dtstart` parameter. Also, the best part is, the `rrule` object is a generator, which means I can iterate over it and it will give me the next timestamp in the sequence. Overall, this utility provided the perfect suite for managing RRULEs.
 
 Th initial idea for flow was,
+
 1. Get the RRULEs from the database defined by the user
 2. Build the `rrule` object
 3. Get the next timestamp in the sequence
