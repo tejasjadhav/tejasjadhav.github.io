@@ -49,3 +49,29 @@ pre[class*="language-"] {
   line-height: 1.1;
   font-size: 0.95em;
 }
+
+@media (prefers-color-scheme: dark) {
+  :not(pre) > code[class*="language-"] {
+    color: #ffffff;
+    background-color: #333333;
+    text-shadow: none;
+  }
+
+  pre > code[class*="language-"],
+  .line-numbers-rows {
+    color: #ffffff;
+    text-shadow: none;
+  }
+
+  .token.operator, .token.entity, .token.url, .language-css .token.string, .style .token.string {
+    background-color: transparent;
+  }
+
+  .gatsby-highlight-code-line {
+    background-color: #000000;
+  }
+
+  .gatsby-highlight {
+    background-color: #000000;
+  }
+}
