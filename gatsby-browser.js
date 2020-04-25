@@ -1,5 +1,5 @@
 import "prismjs/themes/prism.css"
 require("prismjs/plugins/line-numbers/prism-line-numbers.css")
 require("prismjs/plugins/command-line/prism-command-line.css")
+require("./static/prismjs-hacks.css")
 require("./static/theme.css")
-// require("prismjs/themes/prism.css");
