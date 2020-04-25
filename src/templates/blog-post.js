@@ -7,11 +7,17 @@ import Bio from "../components/bio"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
+import { DiscussionEmbed } from "disqus-react"
 
 const BlogPostTemplate = ({ data, pageContext, location }) => {
   const post = data.mdx
   const siteTitle = data.site.siteMetadata.title
   const { previous, next } = pageContext
+
+  const disqusConfig = {
+    shortname: 'tejasjadhav',
+    config: { identifier: post.frontmatter.slug, title: post.frontmatter.title },
+  }
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -45,6 +51,9 @@ const BlogPostTemplate = ({ data, pageContext, location }) => {
             marginBottom: rhythm(1),
           }}
         />
+
+        <DiscussionEmbed {...disqusConfig} />
+
         <footer>
           <Bio />
         </footer>
