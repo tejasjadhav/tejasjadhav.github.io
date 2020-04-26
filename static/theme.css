@@ -11,4 +11,8 @@
   a {
     color: #fb7979;
   }
+
+  hr {
+    background-color: rgb(255, 255, 255);
+  }
 }
