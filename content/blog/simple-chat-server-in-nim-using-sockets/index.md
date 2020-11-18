@@ -40,7 +40,7 @@ Create a file called `server.nim`. This would be our core server file. To compil
 
 We'll create a simple socket which will listen to new socket connections on port `5555` and then close it.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 
 let server: Socket = newSocket()
@@ -94,7 +94,7 @@ The code ran but it didn't produce any output, except for compiler messages (we 
 
 Now we'll make the server wait until it receives new connections.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 
 let server: Socket = newSocket()
@@ -118,7 +118,7 @@ Our server is now actively listening for connections from clients. But… it's k
 
 Create a new file called `client.nim`. We'll use socket as a client and connect to the server.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=client.nim
 import net
 
 let client: Socket = newSocket()
@@ -156,7 +156,7 @@ We have built a server which accepts socket connection and a client which connec
 
 On the client side, we'll prompt user to enter the message to be sent and then send this message over to the server.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=client.nim
 import net
 
 let client: Socket = newSocket()
@@ -178,7 +178,7 @@ client.close()
 
 On the server side, we need to listen to new messages from client. We'll also print the messages received from the client on the console.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 
 var server: Socket = newSocket()
@@ -241,7 +241,7 @@ The culprit here is line 13. We specified that we'll only accept 10 characters f
 
 A much better solution here would be to use the [`recvLine`](https://nim-lang.org/docs/net.html#recvLine,Socket) method. It handles the complexity of handling the delimited character for us. It uses `\r\L` as the delimiter. This means, on the client side, for each message we send, we would also need to append this delimiter. Let's make the changes accordingly.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 
 var server: Socket = newSocket()
@@ -264,7 +264,7 @@ while true:
 server.close()
 ```
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=client.nim
 import net
 
 let client: Socket = newSocket()
@@ -294,7 +294,7 @@ If you're getting the above error, it's an indication that the port on which our
 
 To fix this, we use the `SO_REUSEADDR` property of sockets. If a socket is created with this option enabled, instead of throwing an error, it checks whether a socket which is listening on the same port is in lingering state. If it is, the socket will use the same address with an assumption that the earlier socket will release the port soon. In Nim, we have the `OptReuseAddr` option which can be set as `true` to enable `SO_REUSEADDR` property of the socket.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 
 var server: Socket = newSocket()
@@ -364,7 +364,7 @@ Fortunately, sockets have an option to run in non-blocking mode. This means, our
 
 In Nim, we enable non-blocking mode using the [`setBlocking()`](https://nim-lang.org/docs/nativesockets.html#setBlocking,SocketHandle,bool) function of the underlying native socket. We'll also store all our connected sockets in a list so that we can iterate over them and receive messages from each of them. We'll do both, accept new connections and receive data from sockets in a single infinite loop, so that we keep accepting new connections while we receive messages from existing ones. Let's give this a try.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 import nativesockets
 
@@ -467,7 +467,7 @@ There's a major catch here. Since sending and receiving messages is a simultaneo
 
 We can build a small GUI or use [`ncurses`](https://www.linuxjournal.com/content/getting-started-ncurses) to do that interactively in terminal. Since both of these are outside the scope of this tutorial, we'll make a hack for now. We'll create two different types of clients - one for sending messages and one for receiving. We call them `client_sending.nim` and `client_receiving.nim` respectively. `client_sending.nim` is exactly same as our `client.nim`.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=client_sending.nim
 import net
 
 let client: Socket = newSocket()
@@ -482,7 +482,7 @@ while true:
 client.close()
 ```
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=client_receiving.nim
 import net
 
 let client: Socket = newSocket()
@@ -498,7 +498,7 @@ client.close()
 
 We would need some minor changes in our `server.nim`. Once the server receives a message, it will send it to all connected clients, except the one who sent the message.
 
-```nim{numberLines: true}
+```nim{numberLines: true}:title=server.nim
 import net
 import nativesockets
 
@@ -657,31 +657,31 @@ server.close()
 ```
 
 #### Explanation
-> **3-4** Import the packages required for `select` functions. Note that we also imported `os` package. This is because, in Nim v0.18 and lower, `OSErrorCode` is not explicity imported in the `select` library. This is fixed in later versions.
+> **2-3** Import the packages required for `select` functions. Note that we also imported `os` package. This is because, in Nim v0.18 and lower, `OSErrorCode` is not explicity imported in the `select` library. This is fixed in later versions.
 >
-> **7** We define our selector. It requires a type too. This would be the type of the data that we will associate in `registerHandle` method.
+> **6** We define our selector. It requires a type too. This would be the type of the data that we will associate in `registerHandle` method.
 >
-> **14** Register our server for read events. Note that read events on server socket would be incoming socket connections. Since we don't have any data associated with our server, we'll pass data as `-1`.
+> **13** Register our server for read events. Note that read events on server socket would be incoming socket connections. Since we don't have any data associated with our server, we'll pass data as `-1`.
 >
-> **18** `select` returns a list of events along with their file descriptors for which the specified event was triggered.
+> **17** `select` returns a list of events along with their file descriptors for which the specified event was triggered.
 >
-> **21** We are only interested in read events.
+> **20** We are only interested in read events.
 >
-> **22** The result received from `select` method contains the list of `events` that were captured and the file descriptor `fd` for which the event was triggered. Though our `fd` is enough, we compare the underlying socket for that file descriptor. If the one that triggered a read event was our server, it must mean that we recevied an incoming connection from a client.
+> **21** The result received from `select` method contains the list of `events` that were captured and the file descriptor `fd` for which the event was triggered. Though our `fd` is enough, we compare the underlying socket for that file descriptor. If the one that triggered a read event was our server, it must mean that we recevied an incoming connection from a client.
 >
-> **26** Since clients are also handled by `select` we'll set them as non-blocking.
+> **25** Since clients are also handled by `select` we'll set them as non-blocking.
 >
-> **27** Just like our server, listen to read events of our client. Read event on a connected socket indicates that a new message has been arrived waiting to be read.
+> **26** Just like our server, listen to read events of our client. Read event on a connected socket indicates that a new message has been arrived waiting to be read.
 >
-> **30** If the read event was not triggered by server, then it must be client. This means we received a message from a client which we have to broadcast to other clients.
+> **29** If the read event was not triggered by server, then it must be client. This means we received a message from a client which we have to broadcast to other clients.
 >
-> **31** Working with higher-level socket abstractions is easier. So, we convert our low-level socket from file descriptor in the result into a higher-level socket.
+> **30** Working with higher-level socket abstractions is easier. So, we convert our low-level socket from file descriptor in the result into a higher-level socket.
 >
-> **34-45** If a client is disconnected, remove it from clients list and [`unregister`](https://nim-lang.org/docs/selectors.html#unregister,Selector[T],) events for that client.
+> **33-44** If a client is disconnected, remove it from clients list and [`unregister`](https://nim-lang.org/docs/selectors.html#unregister,Selector[T],) events for that client.
 >
-> **50** We could have compared the two objects directly. But since the newly created `sourceClient` object as a copy, it's identity would be different. This would cause an inequality even though the underlying sockets are same.
+> **29** We could have compared the two objects directly. But since the newly created `sourceClient` object as a copy, it's identity would be different. This would cause an inequality even though the underlying sockets are same.
 >
-> **55** Like sockets, even select should be closed to signal the kernel that we are no longer listening to any events. This is a good practice to cleanly close everything before shutting down our program.
+> **54** Like sockets, even select should be closed to signal the kernel that we are no longer listening to any events. This is a good practice to cleanly close everything before shutting down our program.
 
 Let's run the program now and see our CPU usage.
 
