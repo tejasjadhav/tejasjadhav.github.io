@@ -1,0 +1,98 @@
+.gatsby-highlight-code-line {
+    background-color: #feb;
+    display: block;
+    margin-right: -1em;
+    margin-left: -1em;
+    padding-right: 1em;
+    padding-left: 0.75em;
+    border-left: 0.25em solid #f99;
+}
+
+
+/**
+ * Add back the container background-color, border-radius, padding, margin
+ * and overflow that we removed from <pre>.
+ */
+
+.gatsby-highlight {
+    background-color: #fdf6e3;
+    margin: 0.5em 0;
+    padding: 1em;
+    overflow: auto;
+    border: 2px solid rgb(223, 167, 0);
+}
+
+
+/**
+ * Remove the default PrismJS theme background-color, border-radius, margin,
+ * padding and overflow.
+ * 1. Make the element just wide enough to fit its content.
+ * 2. Always fill the visible space in .gatsby-highlight.
+ * 3. Adjust the position of the line numbers
+ */
+
+.gatsby-highlight pre[class*="language-"] {
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    overflow: initial;
+    float: left;
+    /* 1 */
+    min-width: 100%;
+    /* 2 */
+}
+
+.gatsby-highlight pre[class*="language-"].line-numbers {
+    padding-left: 2.8em;
+}
+
+.gatsby-code-title {
+    margin-bottom: -0.6rem;
+    padding: 0.25em 1em;
+    font-size: 0.9em;
+    font-weight: 700;
+    font-family: Consolas, "Roboto Mono", "Liberation Mono", Menlo, Courier, monospace;
+    background-color: rgb(223, 167, 0);
+    z-index: 0;
+}
+
+table.monospace,
+code,
+pre,
+code[class*="language-"],
+pre[class*="language-"] {
+    font-family: Consolas, "Roboto Mono", "Liberation Mono", Menlo, Courier, monospace;
+    line-height: 1.1;
+    font-size: 0.95em;
+}
+
+@media (prefers-color-scheme: dark) {
+     :not(pre)>code[class*="language-"] {
+        color: #ffffff;
+        background-color: #333333;
+        text-shadow: none;
+    }
+    pre>code[class*="language-"],
+    .line-numbers-rows {
+        color: #ffffff;
+        text-shadow: none;
+    }
+    .token.operator,
+    .token.entity,
+    .token.url,
+    .language-css .token.string,
+    .style .token.string {
+        background-color: transparent;
+    }
+    .gatsby-highlight-code-line {
+        background-color: #000000;
+    }
+    .gatsby-highlight {
+        background-color: #000000;
+        border-color: rgb(30, 142, 186);
+    }
+    .gatsby-code-title {
+        background-color: rgb(30, 142, 186);
+        color: #ffffff;
+    }
+}
